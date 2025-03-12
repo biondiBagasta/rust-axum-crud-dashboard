@@ -9,7 +9,7 @@ interface PageTitleProps {
 
 export default function PageTitleComponent(props: PageTitleProps) {
 	return (
-		<div className="flex flex-column md:flex-row justify-content-between align-items-center">
+		<div className="flex flex-column md:flex-row justify-between items-center">
 			<div className="page-title">
 				{ props.title }
 			</div>

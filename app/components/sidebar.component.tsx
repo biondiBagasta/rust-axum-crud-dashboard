@@ -6,7 +6,7 @@ interface SidebarProps {
 
 export default function SidebarComponent(props: SidebarProps) {
 	return (
-		<div className={ props.isOpenedSidebar ? 'sidebar' : 'sidebar-close' }>
+		<div className={ props.isOpenedSidebar ? 'sidebar' : 'sidebar close' }>
 			<div className="logo-details">
 				<img src="/images/next-logo.png" className="logo-image" />
 				<span className="logo_name">

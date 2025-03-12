@@ -50,8 +50,8 @@
   }
   
   .sidebar .logo-details .logo-image {
-    width: 48px;
-    height: 48px;
+    width: 32px;
+    height: 32px;
     transition: 1s flex cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
   
@@ -276,7 +276,6 @@
     top: 0;
     box-shadow: 0 1px 2px rgba(56,65,74,.15);
     padding-left: 10px;
-    padding-bottom: 8px;
   }
   
   .footer-sticky {
@@ -300,17 +299,6 @@
     min-height: 100vh;
   }
   
-  // @media screen and (min-width: 1024px) {
-  //   .section {
-  //     padding: 3rem 3rem;
-  //   }
-  //   .section.is-medium {
-  //     padding: 9rem 4.5rem;
-  //   }
-  //   .section.is-large {
-  //     padding: 18rem 6rem;
-  //   }
-  // }
   
   .home-section .top-navbar .bx-menu,
   .home-section .top-navbar .text {
@@ -354,9 +342,9 @@
   }
   
   .name-text {
-    color: #495057;
-    font-weight: 500;
-    font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -402,13 +390,11 @@
   }
   
   .header-user {
-    position: relative;
     display: flex;
     flex-direction: row;
     gap: 1rem;
     align-items: center;
     flex-wrap: wrap;
-    right: 2vw;
     color: #fff;
   }
   
