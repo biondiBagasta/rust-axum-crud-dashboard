@@ -1,5 +1,21 @@
-import LoginPage from "./login/page";
+"use client"
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  return <LoginPage />
+
+  const router = useRouter();
+  
+  useEffect(() => {
+    const jwt = localStorage.getItem("rust-jwt");
+
+     if(jwt) {
+      router.replace("/dashboard/main");
+     } else {
+      router.replace("/login");
+     }
+  });
+
+  return <></>;
 }

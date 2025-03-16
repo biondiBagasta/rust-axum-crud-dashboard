@@ -1,25 +1,80 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import OverlayLoading from "../components/overlay-loading";
+import { useRouter } from "next/navigation";
+import { catchError, EMPTY, Subscription, tap } from "rxjs";
+import { useServiceStore } from "../store/service.store";
+import { useAuthenticatedStore } from "../store/authenticated.store";
+import { toast, ToastContainer } from "react-toastify";
+import { AxiosError } from "axios";
+import { AxiosErrorObject } from "../interfaces/axios-error-object";
+import Image from "next/image";
 
 export default function LoginPage() {
 	const [usernameControl, setUsernameControl] = useState("");
 	const [passwordControl, setPasswordControl] = useState("");
 	const [isLoadingSubmit, setIsLoadingSubmit] = useState(false);
 
+	const router = useRouter();
+
+	const subscriptionRef = useRef(new Subscription());
+
+	const authService = useServiceStore((state) => state.authService);
+	const setAuthenticatedState = useAuthenticatedStore((state) => state.setUserState);
+
+	useEffect(() => {
+		const jwt = localStorage.getItem("rust-jwt");
+
+		const currentSubscription = subscriptionRef.current;
+
+		if(jwt) {
+			router.replace("/dashboard/main");
+		}
+
+		return () => {
+			currentSubscription.unsubscribe();
+		}
+	}, [router]);
+
+	const login = () => {
+		setIsLoadingSubmit(true);
+
+		const loginSubscription = authService.login(usernameControl, passwordControl).pipe(
+			tap(data => {
+				setIsLoadingSubmit(false);
+
+				localStorage.setItem("rust-jwt", data.token);
+
+				setAuthenticatedState(data.data);
+
+				router.push("/dashboard/main");
+			}),
+			catchError((e: AxiosError) => {	
+				toast((e.response?.data as AxiosErrorObject).message, {
+					autoClose: 5000,
+					theme: "colored",
+					type: "error",
+
+				});
+				setUsernameControl("");
+				setPasswordControl("");
+				setIsLoadingSubmit(false);
+				return EMPTY;
+			})
+		).subscribe();
+
+		subscriptionRef.current.add(loginSubscription);
+	}
+
 	return (
-		<>
+		<>	
+			<ToastContainer />
 			<div className="w-full h-screen flex flex-row items-center justify-center">
 				<div className="card bg-white shadow-sm p-8 w-full md:w-128">
 					<div className="flex flex-row justify-content-center mb-10">
-		                <img src="/images/next-logo.png" className="m-auto"
-		                style={
-		                  {
-		                    maxWidth: "96px",
-		                    height: "auto",
-		                  }
-		                } />
+		                <Image alt="logo" src="/images/next-logo.png" className="m-auto"
+		                width={ 96 } height={ 0 } />
 					</div>
 					<div className="text-base font-bold mb-5">
 						Login
@@ -42,7 +97,11 @@ export default function LoginPage() {
 					  		(e) => setPasswordControl(e.target.value)
 					  	} />
 					</label>
-					<button className="btn btn-soft btn-primary w-full">
+					<button className="btn btn-soft btn-primary w-full" onClick={
+						() => {
+							login();
+						}
+					}>
 						Login
 					</button>
 				</div>
