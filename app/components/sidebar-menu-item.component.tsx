@@ -23,14 +23,8 @@ export default function SidebarMenuItemComponent(props: SidebarMenuItemProps) {
 			pathName == `/dashboard/${props.redirectRoute}` ? 'menu-active' : ''
 		}>
 			<a>
-				<i className={
-					pathName == `/dashboard/${props.redirectRoute}` ? 'nav-icon-active' : 'nav-icon'
-				}>
-					{ props.icon }
-				</i>
-				<span className={
-					pathName == `/dashboard/${props.redirectRoute}` ? 'link_name_active' : 'link_name'
-				}>{ props.name }</span>
+				{ props.icon }
+				<span className="link_name">{ props.name }</span>
 			</a>
 			<ul className="sub-menu blank">
 				<li>

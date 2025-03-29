@@ -33,19 +33,24 @@ export default function DashboardLayout({
 		} else {
 			const authSubscription = authService.authenticated().pipe(
 				tap(data => {
-					console.log(data)
 					localStorage.setItem("rust-jwt", data.token);
 					setUserState(data.data);
 
-					console.log(userState);
 				}),
-				catchError((e: AxiosError) => {	
-					toast((e.response?.data as AxiosErrorObject).message, {
+				catchError((e: AxiosError) => {
+					const errorMessage = (e.response?.data as AxiosErrorObject).message;	
+					
+					toast(errorMessage, {
 						autoClose: 5000,
 						theme: "colored",
 						type: "error",
 
 					});
+
+					if(errorMessage == "Session Was Expired") {
+						localStorage.removeItem("rust-jwt");
+						router.replace("/login");
+					}
 					return EMPTY;
 				})
 			).subscribe();
