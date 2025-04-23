@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { UserSystem } from "../interfaces/user-system";
+import { useRouter } from "next/navigation";
 
 interface TopNavbarProps {
 	isOpenedSidebar: boolean;
@@ -11,6 +12,13 @@ interface TopNavbarProps {
 
 export default function TopNavbarComponent(props: TopNavbarProps) {
 	const [showUserDropdown, setUserDropdown] = useState(false);
+
+	const router = useRouter();
+
+	const logout = () => {
+		localStorage.removeItem("rust-jwt");
+		router.replace("/login");
+	}
 
 	return (
 		<div className="top-navbar">
@@ -55,7 +63,11 @@ export default function TopNavbarComponent(props: TopNavbarProps) {
 			          </div>
 			          <div className="dropdown-user-button">
 			            <button className="btn btn-primary mr-3">Edit Profil</button>
-			            <button className="btn btn-soft btn-error">Logout</button>
+			            <button className="btn btn-soft btn-error" onClick={
+			            	() => {
+			            		logout();
+			            	}
+			            }>Logout</button>
 			          </div>
 		        </div> :
 		        <></>

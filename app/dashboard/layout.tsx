@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react"
 import SidebarComponent from "../components/sidebar.component"
 import TopNavbarComponent from "../components/top-navbar.component";
-import { UserSystem } from "../interfaces/user-system";
 import { useServiceStore } from "../store/service.store";
 import { catchError, EMPTY, tap } from "rxjs";
 import { useAuthenticatedStore } from "../store/authenticated.store";
@@ -38,7 +37,11 @@ export default function DashboardLayout({
 
 				}),
 				catchError((e: AxiosError) => {
-					const errorMessage = (e.response?.data as AxiosErrorObject).message;	
+					console.log(e);
+					console.log(e.status);
+					const errorMessage = (e.response?.data as AxiosErrorObject).message;
+
+					console.log(errorMessage);	
 					
 					toast(errorMessage, {
 						autoClose: 5000,

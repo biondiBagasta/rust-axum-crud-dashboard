@@ -12,6 +12,7 @@ interface ProductPaginate {
 
 interface ProductBody {
 	name: string;
+	description: string;
 	purchase_price: number;
 	selling_price: number;
 	stock: number;

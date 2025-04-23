@@ -1,5 +1,6 @@
 "use client"
 
+import InfoAlertComponent from "@/app/components/info-alert.component";
 import OverlayLoading from "@/app/components/overlay-loading";
 import PageTitleComponent from "@/app/components/page-title.component"
 import PaginationComponent from "@/app/components/pagination-component";
@@ -299,6 +300,9 @@ export default function CategoryPage() {
 								}
 							</tbody>
 						</table>
+						{
+							dataList.length == 0 ? <InfoAlertComponent message="No Category Data!!!" /> : <></>
+						}
 					</div>
 
 					<div className="flex flex-row justify-center">
