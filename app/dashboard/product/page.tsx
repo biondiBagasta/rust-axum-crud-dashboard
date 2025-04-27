@@ -7,7 +7,7 @@ import { useServiceStore } from "@/app/store/service.store";
 import { AxiosError } from "axios";
 import { useEffect, useRef, useState } from "react"
 import { toast } from "react-toastify";
-import { catchError, EMPTY, Subscription, tap } from "rxjs";
+import { catchError, EMPTY, retry, Subscription, switchMap, tap } from "rxjs";
 
 export default function ProductPage() {
 
@@ -20,7 +20,8 @@ export default function ProductPage() {
 	const [sellingPriceControl, setSellingPriceControl] = useState("");
 	const [stockControl, setStockControl] = useState(0);
 	const [discountControl, setDiscountControl] = useState("");
-	const [imageFile, setImageFile] = useState<File | null>(null);
+	const [imageFileControl, setImageFileControl] = useState<File | null>(null);
+	const [categoryIdControl, setCategoryIdControl] = useState(0);
 
 	const [dataList, setDataList] = useState<Product[]>([]);
 
@@ -65,7 +66,7 @@ export default function ProductPage() {
 
   	const checkFormValidity: () => boolean = () => {
   		if(nameControl && descriptionControl && purchasePriceControl && sellingPriceControl && stockControl
-  		&& imageFile) {
+  		&& imageFileControl) {
   			return false;
   		} else {
   			return true;
@@ -79,7 +80,7 @@ export default function ProductPage() {
   		setSellingPriceControl("")
   		setStockControl(0);
   		setDiscountControl("");
-  		setImageFile(null);
+  		setImageFileControl(null);
   	}
 
   	const resetPaginate = () => {
@@ -109,6 +110,37 @@ export default function ProductPage() {
   		).subscribe();
 
   		subscriptionRef.current.add(searchSubscription);
+  	}
+
+  	const openCreateModal = () => {
+  		document.getElementById("create_modal")!.showModal();
+  		resetFormControl();
+  	}
+
+  	const createData = () => {
+  		setIsLoadingSubmit(true);
+
+  		const formData = new FormData();
+
+  		formData.append("product_image", imageFile!);
+
+  		const createSubscription = productService.uploadImage(formData).pipe(
+  			retry(5),
+  			switchMap(fileResponse => {
+  				return productService.create({
+  					name: nameControl,
+  					description: descriptionControl,
+  					purchase_price: Number(purchasePriceControl),
+  					selling_price: Number(sellingPriceControl),
+  					stock: stockControl,
+  					discount: Number(discountControl),
+  					image: fileResponse.file_name,
+  					
+  				})
+  			})
+  		).subscribe();
+
+  		subscriptionRef.current.add(createSubscription);
   	}
 
 
