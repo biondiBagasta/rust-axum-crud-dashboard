@@ -10,11 +10,15 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@maskito/core": "^3.7.2",
+    "@maskito/kit": "^3.7.2",
+    "@maskito/react": "^3.7.2",
     "axios": "^1.8.2",
     "daisyui": "^5.0.0",
     "next": "15.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-quilljs": "^2.0.5",
     "react-toastify": "^11.0.5",
     "rxjs": "^7.8.2",
     "zustand": "^5.0.3"
@@ -23,6 +27,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/quill": "^2.0.14",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

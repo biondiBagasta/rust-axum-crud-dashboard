@@ -102,7 +102,7 @@ export default function CategoryPage() {
 	}
 
 	const openCreateModal = () => {
-		document.getElementById("create_modal")!.showModal();
+		document.getElementById("create_modal_category")!.showModal();
 		resetFormControl();
 	}
 
@@ -143,7 +143,7 @@ export default function CategoryPage() {
 	}
 
 	const openEditModal = (data: Category) => {
-		document.getElementById("edit_modal")!.showModal();
+		document.getElementById("edit_modal_category")!.showModal();
 		setSelectedData(data);
 
 		setNameControl(data.name);
@@ -189,7 +189,7 @@ export default function CategoryPage() {
 	}
 
 	const openDeleteModal = (data: Category) => {
-		document.getElementById("delete_modal")!.showModal();
+		document.getElementById("delete_modal_category")!.showModal();
 		setSelectedData(data);
 	}
 
@@ -319,7 +319,7 @@ export default function CategoryPage() {
 
 
 			{/* Create Modal */}
-			<dialog id="create_modal" className="modal modal-bottom sm:modal-middle">
+			<dialog id="create_modal_category" className="modal modal-bottom sm:modal-middle">
 			  <div className="modal-box w-11/12 max-w-5xl">
 			    <h3 className="font-bold text-lg mb-5">Create Category Data</h3>
 
@@ -365,7 +365,7 @@ export default function CategoryPage() {
 			</dialog>
 
 			{/* Edit Modal */}
-			<dialog id="edit_modal" className="modal modal-bottom sm:modal-middle">
+			<dialog id="edit_modal_category" className="modal modal-bottom sm:modal-middle">
 			  <div className="modal-box w-11/12 max-w-5xl">
 			    <h3 className="font-bold text-lg mb-5">Edit Category Data</h3>
 
@@ -411,7 +411,7 @@ export default function CategoryPage() {
 			</dialog>
 
 			{/* Delete Modal */}
-			<dialog id="delete_modal" className="modal modal-bottom sm:modal-middle">
+			<dialog id="delete_modal_category" className="modal modal-bottom sm:modal-middle">
 			  <div className="modal-box w-11/12 max-w-5xl">
 			    <h3 className="font-bold text-lg mb-5">Delete Category Data</h3>
 
