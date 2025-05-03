@@ -74,7 +74,7 @@ export default function ProductPage() {
 
   	useEffect(() => {
   		if(quill) {
-  			quill.on('text-change', (delta, oldDelta, source) => {
+  			quill.on('text-change', () => {
   				// console.log(quill.getText())
   				// console.log(quill.get)
   				// console.log(quill.getContents());
@@ -82,6 +82,12 @@ export default function ProductPage() {
   			})
   		}
   	}, [quill]);
+
+  	useEffect(() => {
+  		const initializeCategorySubscription = categoryService.findMany().pipe().subscribe();
+
+  		subscriptionRef.current.add(initializeCategorySubscription);
+  	})
 
   	const checkFormValidity: () => boolean = () => {
   		if(nameControl && descriptionControl && purchasePriceControl && sellingPriceControl && stockControl
@@ -212,7 +218,7 @@ export default function ProductPage() {
   		setDiscountControl(maskitoTransform(data.discount.toString(), maskitoPercentOptions));
   		setCategoryIdControl(data.category_id);
 
-  		document.getElementById("edit_modal")!.showModal();
+  		document.getElementById("edit_modal_product")!.showModal();
   	};
 
   	const update = () => {
@@ -339,7 +345,7 @@ export default function ProductPage() {
   	}
 
   	const openDeleteModal = (data: Product) => {
-		document.getElementById("delete_modal")!.showModal();
+		document.getElementById("delete_modal_product")!.showModal();
 		setSelectedData(data);
   	}
 
@@ -518,6 +524,91 @@ export default function ProductPage() {
 					  	<div ref={ quillRef }></div>
 					</div>
 			    </div>
+
+			    <div className="flex flex-col gap-2">
+			    	<div className="text-sm">
+			    		Purchase Price
+			    	</div>
+			    	<div className="w-full input">
+					  	<input type="text" className="grow" placeholder="Purchase Price" value={ purchasePriceControl }
+					  	onChange={
+					  		(e) => {
+					  			const formatedPurchasePrice = maskitoTransform(e.target.value, maskitoCurrencyOptions);
+					  			setPurchasePriceControl(formatedPurchasePrice);
+					  		}
+					  	} />
+					</div>
+			    </div>
+
+			    <div className="flex flex-col gap-2">
+			    	<div className="text-sm">
+			    		Selling Price
+			    	</div>
+			    	<div className="w-full input">
+					  	<input type="text" className="grow" placeholder="Selling Price" value={ sellingPriceControl }
+					  	onChange={
+					  		(e) => {
+					  			const formatedSellingPrice = maskitoTransform(e.target.value, maskitoCurrencyOptions);
+					  			setPurchasePriceControl(formatedSellingPrice);
+					  		}
+					  	} />
+					</div>
+			    </div>
+
+			    <div className="flex flex-col gap-2">
+			    	<div className="text-sm">
+			    		Stock
+			    	</div>
+			    	<div className="w-full input">
+					  	<input type="number" className="grow" placeholder="Stock" value={ stockControl }
+					  	onChange={
+					  		(e) => {
+					  			setStockControl(Number(e.target.value));
+					  		}
+					  	} />
+					</div>
+			    </div>
+
+			    <div className="flex flex-col gap-2">
+			    	<div className="text-sm">
+			    		Discount
+			    	</div>
+			    	<div className="w-full input">
+					  	<input type="text" className="grow" placeholder="Discount" value={ discountControl }
+					  	onChange={
+					  		(e) => {
+					  			const formattedDiscount = maskitoTransform(e.target.value, maskitoPercentOptions);
+					  			setDiscountControl(formattedDiscount);
+					  		}
+					  	} />
+					</div>
+			    </div>
+
+			    <div className="flex flex-col gap-2">
+			    	<div className="text-sm">
+			    		Image
+			    	</div>
+			    	<div className="w-full input">
+					  	<input type="file" className="grow file-input" placeholder="Image"
+					  	onChange={
+					  		(e) => {
+					  			const fileData = e.target.files![0];
+					  			setImageFileControl(fileData);
+					  		}
+					  	} />
+					</div>
+			    </div>
+
+			    <fieldset className="fieldset">
+				  	<legend className="fieldset-legend">Select Product Category</legend>
+				    <select className="select">
+					    <option disabled={true}>Pick a browser</option>
+					    {
+					    	category
+					    }
+				    </select>
+				  	<span className="label">Optional</span>
+				</fieldset>
 
 			    <div className="modal-action">
 			      <form method="dialog">

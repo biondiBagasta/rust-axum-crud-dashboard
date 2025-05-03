@@ -14,6 +14,19 @@ interface CategoryBody {
 }
 
 export class CategoryService {
+
+	findMany(): Observable<Category[]> {
+		const jwt = localStorage.getItem("rust-jwt") ?? "";
+
+		return defer(() => {
+			return axiosClientSecuredJsonContent(jwt).get<Category[]>(
+				`/category/many`
+			)
+		}).pipe(
+			map((response) => response.data)
+		);
+	}
+
 	searchPaginate(page: number, term: string): Observable<CategoryPaginate> {
 		const jwt = localStorage.getItem("rust-jwt") ?? "";
 		return defer(() => {
